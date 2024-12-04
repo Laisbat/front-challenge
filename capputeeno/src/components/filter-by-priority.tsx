@@ -49,6 +49,10 @@ const PriorityFilter = styled.ul`
   }
 `;
 
+const priorityOptions = Object.keys(PriorityTypes).filter((key) =>
+  isNaN(Number(key))
+);
+
 export function FilterByPriority(props: FilterByPriorityProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { setPriority } = useFilter();
@@ -66,18 +70,18 @@ export function FilterByPriority(props: FilterByPriorityProps) {
       </button>
       {isOpen && (
         <PriorityFilter>
-          <li onClick={() => handleUpdatePriority(PriorityTypes.NEWS)}>
-            Novidades
-          </li>
-          <li onClick={() => handleUpdatePriority(PriorityTypes.BIGGEST_PRICE)}>
-            Preço: Maior - menor
-          </li>
-          <li onClick={() => handleUpdatePriority(PriorityTypes.MINOR_PRICE)}>
-            Preço: Menor - maior
-          </li>
-          <li onClick={() => handleUpdatePriority(PriorityTypes.POPULARITY)}>
-            Mais vendidos
-          </li>
+          {priorityOptions.map((key) => (
+            <li
+              key={key}
+              onClick={() =>
+                handleUpdatePriority(
+                  PriorityTypes[key as keyof typeof PriorityTypes]
+                )
+              }
+            >
+              {PriorityTypes[key as keyof typeof PriorityTypes]}
+            </li>
+          ))}
         </PriorityFilter>
       )}
     </FilterContainer>
